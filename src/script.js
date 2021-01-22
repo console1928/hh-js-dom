@@ -5,6 +5,8 @@ const onMouseDown = event => {
     event.preventDefault();
     clearInterval(draggableCancelInterval);
 
+    document.addEventListener("mousemove", onMouseMove);
+
     if (event.which !== 1) return;
 
     const dragElement = event.target.closest(".draggable-active");
@@ -47,6 +49,8 @@ const onMouseMove = event => {
 };
 
 const onMouseUp = event => {
+    document.removeEventListener("mousemove", onMouseMove);
+
     if (dragParameters.dragAvatar) {
         finishDrag(event);
     }
@@ -75,7 +79,7 @@ const finishDrag = event => {
     }
 };
 
-const createDragAvatar = event => {
+const createDragAvatar = () => {
     const dragAvatar = dragParameters.dragElement;
 
     dragAvatar.moveToInitialPosition = () => {
@@ -185,7 +189,6 @@ const getRandomColor = () => {
     return colors[Math.floor(Math.random() * colors.length)];
 };
 
-document.addEventListener("mousemove", event => onMouseMove(event));
-document.addEventListener("mouseup", event => onMouseUp(event));
-document.addEventListener("mousedown", event => onMouseDown(event));
-document.addEventListener("click", event => onMouseClick(event));
+document.addEventListener("mouseup", onMouseUp);
+document.addEventListener("mousedown", onMouseDown);
+document.addEventListener("click", onMouseClick);
