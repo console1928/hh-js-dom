@@ -6,6 +6,7 @@ const onMouseDown = event => {
     clearInterval(draggableCancelInterval);
 
     document.addEventListener("mousemove", onMouseMove);
+    document.addEventListener("touchmove", onMouseMove);
 
     if (event.which !== 1) return;
 
@@ -50,6 +51,7 @@ const onMouseMove = event => {
 
 const onMouseUp = event => {
     document.removeEventListener("mousemove", onMouseMove);
+    document.removeEventListener("touchmove", onMouseMove);
 
     if (dragParameters.dragAvatar) {
         finishDrag(event);
@@ -189,6 +191,8 @@ const getRandomColor = () => {
     return colors[Math.floor(Math.random() * colors.length)];
 };
 
-document.addEventListener("mouseup", onMouseUp);
 document.addEventListener("mousedown", onMouseDown);
+document.addEventListener("mouseup", onMouseUp);
+document.addEventListener("touchstart", onMouseDown);
+document.addEventListener("touchend", onMouseUp);
 document.addEventListener("click", onMouseClick);
